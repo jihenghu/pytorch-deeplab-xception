@@ -6,8 +6,9 @@
 
 # copy tar to pth file. It is strange that the tar file is not a compression file
 # so just rename it.
+# saved model is *pth.tar
 
-#cp /home/hlc/Data/deeplab/v3+/pytorch-deeplab-xception/deeplab-resnet.pth.tar deeplab-resnet.pth
+#cp /home/hlc/Data/deeplab/v3+/pytorch-deeplab-xception/deeplab-resnet.pth.tar deeplab-resnet.pth.tar
 
 
 # test training on Cryo06
