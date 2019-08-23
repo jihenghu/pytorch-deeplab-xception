@@ -1,11 +1,13 @@
 import argparse
 import os,sys
 import numpy as np
-from tqdm import tqdm
+
 
 from distutils.version import LooseVersion
+import tqdm
 if LooseVersion(tqdm.__version__) < LooseVersion("4.34"):
     raise EnvironmentError('tqdm version should be newer (>= 4.34) for url download, run pip install tqdm -U')
+from tqdm import tqdm
 
 HOME = os.path.expanduser('~')
 # path of DeeplabforRS
