@@ -305,11 +305,11 @@ def main():
 
     if args.checkname is None:
         args.checkname = 'deeplab-'+str(args.backbone)
-    basic.outputlogMessage(args)
+    basic.outputlogMessage(str(args))
     torch.manual_seed(args.seed)
     trainer = Trainer(args)
-    basic.outputlogMessage('Starting Epoch:', trainer.args.start_epoch)
-    basic.outputlogMessage('Total Epoches:', trainer.args.epochs)
+    basic.outputlogMessage('Starting Epoch:'+ str(trainer.args.start_epoch) )
+    basic.outputlogMessage('Total Epoches:' + str(trainer.args.epochs))
     for epoch in range(trainer.args.start_epoch, trainer.args.epochs):
         trainer.training(epoch)
         if not trainer.args.no_val and epoch % args.eval_interval == (args.eval_interval - 1):
