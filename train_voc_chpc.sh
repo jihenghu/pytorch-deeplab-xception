@@ -9,7 +9,7 @@ set -eE -o functrace
 # use python 3 with pytorch 1.2
 export PATH=~/programs/anaconda3/bin:$PATH
 
-deeplab_dir=~/codes/PycharmProjects/pytorch-deeplab-xception
+deeplab_dir=~/codes/PycharmProjects/yghlc_pytorch-deeplab-xception
 
 
 para_file=para.ini
@@ -28,7 +28,7 @@ fi
 # test training on ITSC services with 8 GPU
 #export CUDA_VISIBLE_DEVICES=1
 python ${deeplab_dir}/train.py --backbone resnet --lr 0.007 --workers 4 \
---use-sbd --epochs 50 --batch-size 48 --gpu-ids 0,1,2,3,4,5,6,7 \
+--use-sbd --epochs 50 --batch-size 32 --gpu-ids 0,1,2,3,4,5,6,7 \
 --checkname deeplab-resnet --eval-interval 1 --dataset pascal
 
 
