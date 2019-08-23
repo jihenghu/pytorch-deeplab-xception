@@ -1,11 +1,19 @@
 import argparse
-import os
+import os,sys
 import numpy as np
 from tqdm import tqdm
 
 from distutils.version import LooseVersion
 if LooseVersion(tqdm.__version__) < LooseVersion("4.34"):
     raise EnvironmentError('tqdm version should be newer (>= 4.34) for url download, run pip install tqdm -U')
+
+HOME = os.path.expanduser('~')
+# path of DeeplabforRS
+codes_dir2 = HOME +'/codes/PycharmProjects/DeeplabforRS'
+sys.path.insert(0, codes_dir2)
+
+import basic_src.basic as basic
+basic.setlogfile('pytorch_deeplab_train.log')
 
 from mypath import Path
 from dataloaders import make_data_loader
@@ -87,7 +95,7 @@ class Trainer(object):
             if not args.ft:
                 self.optimizer.load_state_dict(checkpoint['optimizer'])
             self.best_pred = checkpoint['best_pred']
-            print("=> loaded checkpoint '{}' (epoch {})"
+            basic.outputlogMessage("=> loaded checkpoint '{}' (epoch {})"
                   .format(args.resume, checkpoint['epoch']))
 
         # Clear start epoch if fine-tuning
@@ -119,8 +127,8 @@ class Trainer(object):
                 self.summary.visualize_image(self.writer, self.args.dataset, image, target, output, global_step)
 
         self.writer.add_scalar('train/total_loss_epoch', train_loss, epoch)
-        print('[Epoch: %d, numImages: %5d]' % (epoch, i * self.args.batch_size + image.data.shape[0]))
-        print('Loss: %.3f' % train_loss)
+        basic.outputlogMessage('[Epoch: %d, numImages: %5d]' % (epoch, i * self.args.batch_size + image.data.shape[0]))
+        basic.outputlogMessage('Loss: %.3f' % train_loss)
 
         if self.args.no_val:
             # save checkpoint every epoch
@@ -163,10 +171,10 @@ class Trainer(object):
         self.writer.add_scalar('val/Acc', Acc, epoch)
         self.writer.add_scalar('val/Acc_class', Acc_class, epoch)
         self.writer.add_scalar('val/fwIoU', FWIoU, epoch)
-        print('Validation:')
-        print('[Epoch: %d, numImages: %5d]' % (epoch, i * self.args.batch_size + image.data.shape[0]))
-        print("Acc:{}, Acc_class:{}, mIoU:{}, fwIoU: {}".format(Acc, Acc_class, mIoU, FWIoU))
-        print('Loss: %.3f' % test_loss)
+        basic.outputlogMessage('Validation:')
+        basic.outputlogMessage('[Epoch: %d, numImages: %5d]' % (epoch, i * self.args.batch_size + image.data.shape[0]))
+        basic.outputlogMessage("Acc:{}, Acc_class:{}, mIoU:{}, fwIoU: {}".format(Acc, Acc_class, mIoU, FWIoU))
+        basic.outputlogMessage('Loss: %.3f' % test_loss)
 
         new_pred = mIoU
         if new_pred > self.best_pred:
@@ -295,11 +303,11 @@ def main():
 
     if args.checkname is None:
         args.checkname = 'deeplab-'+str(args.backbone)
-    print(args)
+    basic.outputlogMessage(args)
     torch.manual_seed(args.seed)
     trainer = Trainer(args)
-    print('Starting Epoch:', trainer.args.start_epoch)
-    print('Total Epoches:', trainer.args.epochs)
+    basic.outputlogMessage('Starting Epoch:', trainer.args.start_epoch)
+    basic.outputlogMessage('Total Epoches:', trainer.args.epochs)
     for epoch in range(trainer.args.start_epoch, trainer.args.epochs):
         trainer.training(epoch)
         if not trainer.args.no_val and epoch % args.eval_interval == (args.eval_interval - 1):
