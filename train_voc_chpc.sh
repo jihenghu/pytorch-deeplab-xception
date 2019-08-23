@@ -3,16 +3,14 @@
 # test training on ITSC services
 # 23 Aug 2019.
 
-#cp /home/hlc/Data/deeplab/v3+/pytorch-deeplab-xception/deeplab-resnet.pth.tar deeplab-resnet.pth.tar
+# Exit immediately if a command exits with a non-zero status. E: error trace
+set -eE -o functrace
 
 # use python 3 with pytorch 1.2
 export PATH=~/programs/anaconda3/bin:$PATH
 
 deeplab_dir=~/codes/PycharmProjects/pytorch-deeplab-xception
 
-cd ${deeplab_dir}
-git pull
-cd -
 
 para_file=para.ini
 
