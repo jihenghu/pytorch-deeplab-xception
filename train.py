@@ -3,6 +3,10 @@ import os
 import numpy as np
 from tqdm import tqdm
 
+from distutils.version import LooseVersion
+if LooseVersion(tqdm.__version__) < LooseVersion("4.34"):
+    raise EnvironmentError('tqdm version should be newer (>= 4.34) for url download, run pip install tqdm -U')
+
 from mypath import Path
 from dataloaders import make_data_loader
 from modeling.sync_batchnorm.replicate import patch_replication_callback
