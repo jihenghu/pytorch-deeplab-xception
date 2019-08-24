@@ -31,7 +31,7 @@ expr_name=$(python2 ${para_py} -p ${para_file} expr_name)
 # test training on ITSC services with 8 GPU
 #export CUDA_VISIBLE_DEVICES=1
 
-if [ ! -f ${expr_name}/checkpoint.pth.tar ]; then
+if [ -f ${expr_name}/checkpoint.pth.tar ]; then
 
     # resume training
     python ${deeplab_dir}/train.py --backbone resnet --lr 0.007 --workers 4 \
