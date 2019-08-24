@@ -179,15 +179,17 @@ class Trainer(object):
         basic.outputlogMessage('Loss: %.3f' % test_loss)
 
         new_pred = mIoU
+        is_best = False
         if new_pred > self.best_pred:
             is_best = True
             self.best_pred = new_pred
-            self.saver.save_checkpoint({
-                'epoch': epoch + 1,
-                'state_dict': self.model.module.state_dict(),
-                'optimizer': self.optimizer.state_dict(),
-                'best_pred': self.best_pred,
-            }, is_best)
+        # save the check point
+        self.saver.save_checkpoint({
+            'epoch': epoch + 1,
+            'state_dict': self.model.module.state_dict(),
+            'optimizer': self.optimizer.state_dict(),
+            'best_pred': self.best_pred,
+        }, is_best)
 
 def main():
     parser = argparse.ArgumentParser(description="PyTorch DeeplabV3Plus Training")
